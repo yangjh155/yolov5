@@ -137,7 +137,7 @@ def select_device(device='', batch_size=0, newline=True):
 
     if not newline:
         s = s.rstrip()
-    LOGGER.info(s)
+    # LOGGER.info(s)
     return torch.device(arg)
 
 
