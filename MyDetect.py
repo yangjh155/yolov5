@@ -146,18 +146,15 @@ def MyDetect(img):
         
         # 确定切割区域
         x_min = np.max((x_min - delta_x, 0))
-        x_max = np.min((x_max + delta_x, img_width))
+        x_max = np.min((x_max + delta_x, img_width - 1))
         y_min = np.max((y_min - delta_y, 0))
-        y_max = np.min((y_max + delta_y, img_height))
+        y_max = np.min((y_max + delta_y, img_height - 1))
         crop_img = img[y_min:y_max, x_min:x_max]
                 
         # 显示切割后的图片
-        # cv2.imwrite('crop0.jpg', crop_img)
-        # print([x_min, x_max, y_min, y_max])
         Antenna_pos =  [x_min, x_max, y_min, y_max]
 
         if Note_xyxy is not None:
-            # Note_pos = [int(np.array(Note_xyxy[0])), int(np.array(Note_xyxy[2])), int(np.array(Note_xyxy[1])), int(np.array(Note_xyxy[3]))]
             Note_x_min = np.max((int(np.array(Note_xyxy[0])) - x_min, 0))
             Note_x_max = np.min((int(np.array(Note_xyxy[2])) - x_min, x_max - x_min))
             Note_y_min = np.max((int(np.array(Note_xyxy[1])) - y_min, 0))
@@ -166,6 +163,8 @@ def MyDetect(img):
             Note_pos = [Note_x_min, Note_x_max, Note_y_min, Note_y_max]
         
     return crop_img, Antenna_pos, Note_pos
+    # Antenna_pos: 0 <= x <= img_width-1, 0 <= y <= img_height-1
+    # Note_pos: 0 <= x <= x_max-x_min, 0 <= y <= y_max-y_min 
     
 if __name__ == '__main__':
     img = cv2.imread('./data/Antenna/images/train/1.jpg')
